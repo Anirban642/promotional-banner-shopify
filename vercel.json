@@ -4,15 +4,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "installCommand": "npm install",
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
-  ],
-  "functions": {
-    "app/entry.server.tsx": {
-      "includeFiles": "build/**"
-    }
+  "env": {
+    "NODE_ENV": "production"
   }
 }
