@@ -1,0 +1,111 @@
+<div class="promotional-banner" id="promotional-banner-{{ block.id }}">
+  <div class="banner-content">
+    <span class="banner-text">🎉 Free Shipping on All Orders! 🎉</span>
+    <button class="banner-close" onclick="closeBanner('{{ block.id }}')">×</button>
+  </div>
+</div>
+
+<style>
+  .promotional-banner {
+    background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+    color: white;
+    text-align: center;
+    padding: 12px 20px;
+    position: relative;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .banner-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .banner-text {
+    font-size: 16px;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+  }
+  
+  .banner-close {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .banner-close:hover {
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
+  }
+  
+  @media (max-width: 768px) {
+    .banner-text {
+      font-size: 14px;
+    }
+    .promotional-banner {
+      padding: 10px 15px;
+    }
+  }
+</style>
+
+<script>
+  function closeBanner(blockId) {
+    const banner = document.getElementById('promotional-banner-' + blockId);
+    if (banner) {
+      banner.style.display = 'none';
+      // Store in sessionStorage so it stays closed during the session
+      sessionStorage.setItem('bannerClosed-' + blockId, 'true');
+    }
+  }
+  
+  // Check if banner was previously closed
+  document.addEventListener('DOMContentLoaded', function() {
+    const bannerId = 'promotional-banner-{{ block.id }}';
+    const banner = document.getElementById(bannerId);
+    if (banner && sessionStorage.getItem('bannerClosed-{{ block.id }}') === 'true') {
+      banner.style.display = 'none';
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Promotional Banner",
+  "target": "head",
+  "settings": [
+    {
+      "type": "text",
+      "id": "banner_text",
+      "label": "Banner Text",
+      "default": "🎉 Free Shipping on All Orders! 🎉"
+    },
+    {
+      "type": "color",
+      "id": "banner_color",
+      "label": "Banner Background Color",
+      "default": "#ff6b6b"
+    }
+  ]
+}
+{% endschema %}
